@@ -3,7 +3,7 @@
 #Creating Ngrok directory 
 mkdir ngrok
 
-#Changing directory to ngrok
+#Changing directory to Ngrok
 cd ngrok
 
 #Removing all existing files 
@@ -18,7 +18,7 @@ wget 'https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip'
 #Unzipping ngrok-stable-linux-amd64.zip in selected folder
 unzip ngrok-stable-linux-amd64.zip
 
-#Asking ngrok auth token
+#Asking Ngrok auth token
 echo "Go to ngrok.io in any browser & signin or signup, copy the ngrok auth token and paste here, ngrok token only  (example - 4OXX56rxxxI00QGKnXXXXZ0_3xSAyW24irP0A0ie0bo0B)"
 echo "Ngrok Auth token here: "
 read input_token
