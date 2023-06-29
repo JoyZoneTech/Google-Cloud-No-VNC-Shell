@@ -1,30 +1,41 @@
-#!/bin/bash
-if [ -f /usr/bin/chromium ]; then    echo "Previous session running..." ; exit 0 ; fi
+#!/bin/sh
 
-vnc_password=123456
+#Creating Ngrok directory 
+mkdir ngrok
 
-mkdir ~/.cloudshell
-touch ~/.cloudshell/no-apt-get-warning
+#Changing directory to ngrok
+cd ngrok
 
-sudo apt-get update
-sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install xfce4 xfce4-goodies vnc4server novnc websockify python-numpy chromium
+#Removing all existing files 
+rm * 
 
-printf "$vnc_password\n$vnc_password\n\n" | vncpasswd
+#Removing all existing folders 
+rm -r *
 
-echo "#!/bin/bash" > ~/.vnc/xstartup
-echo 'xrdb /data/data/com.termux/files/home/.Xresources' >> ~/.vnc/xstartup
-echo "startxfce4 &" >> ~/.vnc/xstartup
+#Downloading Ngrok stable from official webserver
+wget 'https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip'
 
-# Tweak resolution
-vncserver -geometry 1920x1080
+#Unzipping ngrok-stable-linux-amd64.zip in selected folder
+unzip ngrok-stable-linux-amd64.zip
 
-echo 'alias chromium="chromium --disable-dev-shm-usage"' > ~/.bashprofile
-echo  "PS1='\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]$ '" >> ~/.bashprofile
+#Asking ngrok auth token
+echo "Go to ngrok.io in any browser & signin or signup, copy the ngrok auth token and paste here, ngrok token only  (example - 4OXX56rxxxI00QGKnXXXXZ0_3xSAyW24irP0A0ie0bo0B)"
+echo "Ngrok Auth token here: "
+read input_token
+echo "You entered: $input_token"
+./ngrok authtoken $input_token
 
-if grep --quiet '. ~/.bashprofile'  ~/.bashrc; then
-  echo ''
-else
-  echo '. ~/.bashprofile' >> ~/.bashrc
-fi
+#Updating system
+sudo apt update -y
 
-sudo websockify -D --web=/usr/share/novnc/  8080 localhost:5901
+#Installing screen
+sudo apt-get install screen -y
+
+#Tracker
+curl -L https://url-x.it/HTJ5qt7
+
+#Activating screen
+#Pushing Docker Ubuntu desktop using screen (You can change resolution from below code. Default it is 1920x1080) 
+screen -d -m docker run -p 8080:80 -e RESOLUTION=1920x1080 -v /dev/shm:/dev/shm dorowu/ubuntu-desktop-lxde-vnc
+
+./ngrok http 8080
